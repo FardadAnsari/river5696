@@ -46,22 +46,28 @@ for line in file:
 
 
 
-url = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"
-file = urllib.request.urlopen(url)
-for line in file:
-
-	decoded_line = line.decode("utf-8")
-	decoded_line=decoded_line.strip() 
-	proxy_list.append(decoded_line)
 	
+def proxy_finder():
 	
-url = "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/proxy.txt"
-file = urllib.request.urlopen(url)
-for line in file:
+	proxy_list=[]
 
-	decoded_line = line.decode("utf-8")
-	decoded_line=decoded_line.strip() 
-	proxy_list.append(decoded_line)
+	url = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"
+	file = urllib.request.urlopen(url)
+	for line in file:
+		decoded_line = line.decode("utf-8")
+		decoded_line=decoded_line.strip() 
+		proxy_list.append(decoded_line)
+
+	url = "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/proxy.txt"
+	file = urllib.request.urlopen(url)
+	for line in file:
+
+		decoded_line = line.decode("utf-8")
+		decoded_line=decoded_line.strip() 
+		proxy_list.append(decoded_line)
+		
+	return proxy_list
+
 #print(len(proxy_list))
 
 certain=True  
@@ -93,13 +99,15 @@ count_fail=0
 visit = 0
 
 
-  
+proxy_list=proxy_finder()
 
 while True:
     #print(sys.argv[1])
     for ip in proxy_list:
         for device in device_list:
             now = datetime.datetime.now()
+			if count_fail==200:
+				proxy_list=proxy_finder()
 
             if 14 <= now.hour and 22 >= now.hour:
                 certain=True
